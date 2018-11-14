@@ -1,121 +1,15 @@
 import pygame as py
-import os, images123
+import os
+from players import *
+from bullets import *
 
 py.init ()
 
 screen = py.display.set_mode ((800,600))
 
 
-bg = py.image.load('game-assets-game-background-sidescroller.png')
+bg = py.image.load(os.path.join('backgrounds','game-assets-game-background-sidescroller.png'))
 clock = py.time.Clock ()
-
-
-class player(object):
-    def __init__(self,x,y,width,length):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.length = length
-        self.vel = 5
-        self.right = False
-        self.left = False
-        self.standing = True
-        self.idlecount = 0
-        self.runcount = 0
-        self.jumping = False
-        self.jumpcount = 14
-        self.direction = 1
-        self.jumpingcount = 0
-        self.shooting = False
-        self.shootingcount = 0
-
-    def draw (self,screen):
-        if self.idlecount + 1 >= 30:
-            self.idlecount = 0
-
-        if self.runcount + 1 >= 24:
-            self.runcount = 0
-
-        if self.jumpingcount + 1 >= 31:
-            self.jumpingcount = 0
-
-        if self.shootingcount + 1 >= 9:
-            self.shootingcount = 0
-        
-        if not (self.jumping):
-            if not (self.standing):
-
-                if self.right:
-                    screen.blit (run_right[self.runcount//3],(self.x,self.y))
-                    self.runcount += 1
-
-                    if self.shooting:
-                        screen.blit (shoot_run[self.runcount//3],(self.x,self.y))
-                        self.runcount += 1
-                        self.shooting = False
-                        
-                elif self.left:
-                    screen.blit (run_left[self.runcount//3],(self.x,self.y))
-                    self.runcount += 1
-
-                    if self.shooting:
-                        screen.blit (shoot_run2[self.runcount//3],(self.x,self.y))
-                        self.runcount += 1
-                        self.shooting = False
-        
-            else:
-                if self.shooting:
-                    if self.direction == 1:
-                        screen.blit (shoot_idle[self.shootingcount//2],(self.x,self.y))
-                        self.shootingcount += 1
-                        
-                    elif self.direction == -1:
-                        screen.blit (shoot_idle2[self.shootingcount//2],(self.x,self.y))
-                        self.shootingcount += 1
-                        
-                elif self.direction == 1:
-                    screen.blit (idle[self.idlecount//3],(self.x,self.y))
-                    self.idlecount += 1
-                    
-                elif self.direction == -1:
-                    screen.blit (idle2[self.idlecount//3],(self.x,self.y))
-                    self.idlecount += 1
-
-        else:
-            if self.direction == 1:
-                screen.blit (jump[self.jumpingcount//3],(self.x,self.y))
-                self.jumpingcount += 1
-                self.runcount = 0
-
-            elif self.direction == -1:
-                screen.blit (jump2[self.jumpingcount//3],(self.x,self.y))
-                self.jumpingcount += 1
-                self.runcount = 0
-
-
-                                   
-class bulletss (object):
-    def __init__(self,x,y,facing):
-        self.x = x
-        self.y = y
-        self.facing = facing
-        self.vel = 10 * facing
-        self.shootcount = 0
-        self.length = 50
-        self.width = 50
-
-    def draw(self,win):
-
-        if self.shootcount + 1 == 12:
-            self.shootcount = 0
-
-        if self.facing == 1:
-            screen.blit (pows[self.shootcount//3],(self.x+25,self.y-25))
-            self.shootcount += 1
-
-        elif self.facing == -1:
-            screen.blit (pows2[self.shootcount//3],(self.x-75,self.y-25))
-            self.shootcount += 1
 
 
 #class enemies (object):
@@ -125,8 +19,7 @@ def drawGameScreen ():
     screen.blit(bg,(0,0))
     man.draw (screen)
     for bullet in bullets:
-        bullet.draw (screen)
-         
+        bullet.draw (screen)    
 
     py.display.update ()
 
